@@ -14,6 +14,8 @@ namespace OrderManagement.Domain.Products
         public string Name { get; private set; }
         public decimal Price { get; private set; }
 
+        public Product() { } //For EF Core  
+
         private Product(string code, string name, decimal price)
         {
             Id = Guid.NewGuid();    

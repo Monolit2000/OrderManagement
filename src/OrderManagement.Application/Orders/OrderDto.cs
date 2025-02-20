@@ -8,6 +8,7 @@ namespace OrderManagement.Application.Orders
 {
     public class OrderDto
     {
+        public Guid OrderId { get; set; }
         public string CustomerFullName { get; set; }
         public string CustomerPhone { get; set; }
         public List<OrderProductDto> OrderProducts { get; set; }

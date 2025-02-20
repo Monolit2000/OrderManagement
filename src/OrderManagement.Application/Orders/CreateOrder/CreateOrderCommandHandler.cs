@@ -1,11 +1,7 @@
 ﻿using MediatR;
 using OrderManagement.Domain.Orders;
 using OrderManagement.Domain.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace OrderManagement.Application.Orders.CreateOrder
 {
@@ -13,7 +9,6 @@ namespace OrderManagement.Application.Orders.CreateOrder
         IOrderRepository orderRepository,
         IProductRepository productRepository) : IRequestHandler<CreateOrderCommand, OrderDto>
     {
-
         public async Task<OrderDto> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             var order = Order.Create(request.CustomerFullName, request.CustomerPhone);

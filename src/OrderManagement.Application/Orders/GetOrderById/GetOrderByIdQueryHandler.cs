@@ -1,32 +1,37 @@
-﻿using MediatR;
-
-using OrderManagement.Domain.Orders;
+﻿using Dapper;
+using MediatR;
+using OrderManagement.Application.Contract;
 
 namespace OrderManagement.Application.Orders.GetOrderById
 {
     public class GetOrderByIdQueryHandler(
-        IOrderRepository orderRepository) : IRequestHandler<GetOrderByIdQuery, OrderDto>
+        ISqlConnectionFactory sqlConnectionFactory) : IRequestHandler<GetOrderByIdQuery, OrderDto>
     {
         public async Task<OrderDto> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.GetOrderByIdAsync(request.OrderId);
+            using var connection = sqlConnectionFactory.GetOpenConnection();
+
+            const string orderSql = @"
+                SELECT ""Id"" AS OrderId , ""CustomerFullName"", ""CustomerPhone""
+                FROM ""Orders""
+                WHERE ""Id"" = @OrderId";
+
+            const string orderProductsSql = @"
+                SELECT op.""ProductId"", p.""Name"" AS ProductName
+                FROM ""OrderProducts"" op
+                INNER JOIN ""Products"" p ON op.""ProductId"" = p.""Id""
+                WHERE op.""OrderId"" = @OrderId";
+
+            var order = await connection.QuerySingleOrDefaultAsync<OrderDto>(orderSql, new { request.OrderId });
 
             if (order == null)
                 throw new Exception($"Order with ID {request.OrderId} not found.");
 
-            var orderDto = new OrderDto
-            {
-                CustomerFullName = order.CustomerFullName,
-                CustomerPhone = order.CustomerPhone,
-                OrderProducts = order.OrderProducts.Select(op => new OrderProductDto
-                {
-                    ProductId = op.ProductId,
-                    ProductName = op.Product.Name
+            var orderProducts = await connection.QueryAsync<OrderProductDto>(orderProductsSql, new { request.OrderId });
 
-                }).ToList()
-            };
+            order.OrderProducts = orderProducts.ToList();
 
-            return orderDto;   
+            return order;
         }
     }
 }

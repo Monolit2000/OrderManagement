@@ -18,6 +18,8 @@ namespace OrderManagement.Domain.Orders
 
         public decimal TotalPrice => _orderProducts.Sum(op => op.TotalPrice);
 
+        private Order() { } //For EF Core 
+
         private Order(string customerFullName, string customerPhone)
         {
             Id = Guid.NewGuid();

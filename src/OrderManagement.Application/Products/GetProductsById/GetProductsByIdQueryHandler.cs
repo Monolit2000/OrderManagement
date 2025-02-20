@@ -1,28 +1,27 @@
-﻿using MediatR;
-using OrderManagement.Application.Products.GetAllProducts;
-using OrderManagement.Domain.Products;
+﻿using Dapper;
+using MediatR;
+using OrderManagement.Application.Contract;
 
 namespace OrderManagement.Application.Products.GetProductsById
 {
     public class GetProductsByIdQueryHandler(
-        IProductRepository productRepository) : IRequestHandler<GetProductsByIdQuery, ProductDto>
+        ISqlConnectionFactory sqlConnectionFactory) : IRequestHandler<GetProductByIdQuery, ProductDto>
     {
-        public async Task<ProductDto> Handle(GetProductsByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await productRepository.GetProductByIdAsync(request.ProductId);
+            using var connection = sqlConnectionFactory.GetOpenConnection();
+
+            const string sql = @"
+                SELECT ""Id"" AS ProductId, ""Code"", ""Name"", ""Price""
+                FROM ""Products""
+                WHERE ""Id"" = @ProductId";
+
+            var product = await connection.QuerySingleOrDefaultAsync<ProductDto>(sql, new { request.ProductId });
 
             if (product == null)
                 throw new Exception($"Product with ID {request.ProductId} not found.");
 
-            var productDto = new ProductDto
-            {
-                Id = product.Id,    
-                Code = product.Code,
-                Name = product.Name,
-                Price = product.Price
-            };
-
-            return productDto;
+            return product;
         }
     }
 }

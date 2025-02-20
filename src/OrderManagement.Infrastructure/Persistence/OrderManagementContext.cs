@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderManagement.Application.Contract;
 using OrderManagement.Domain.Orders;
 using OrderManagement.Domain.Products;
+using OrderManagement.Infrastructure.Domain.Orders;
+using OrderManagement.Infrastructure.Domain.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagement.Infrastructure.Persistence
 {
-    public class OrderManagementContext : DbContext
+    public class OrderManagementContext : DbContext, IOrderManagementContext
     {
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -25,14 +28,11 @@ namespace OrderManagement.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Order)
-                .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op => op.OrderId);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderManagementContext).Assembly);
 
-            modelBuilder.Entity<OrderProduct>()
-                .HasOne(op => op.Product);
-              
+            //modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Application.Orders;
 using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Application.Orders.GetAllOrders;
+using OrderManagement.Application.Orders.GetOrderById;
 
 namespace OrderManagement.API.Controllers
 {
@@ -17,7 +18,7 @@ namespace OrderManagement.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("createOrder")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
             if (command == null)
@@ -27,10 +28,21 @@ namespace OrderManagement.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("getAllOrders")]
         public async Task<ActionResult<List<OrderDto>>> GetAllOrders()
         {
             var result = await _mediator.Send(new GetAllOrdersQuery());
+            return Ok(result);
+        }
+
+        [HttpGet("getOrderById/{id}")]
+        public async Task<IActionResult> GetOrderById(Guid id)
+        {
+            var query = new GetOrderByIdQuery { OrderId = id };
+            var result = await _mediator.Send(query);
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
     }

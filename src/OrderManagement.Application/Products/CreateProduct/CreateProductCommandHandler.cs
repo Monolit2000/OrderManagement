@@ -21,6 +21,7 @@ namespace OrderManagement.Application.Products.CreateProduct
 
             var createProductDto = new ProductDto
             {
+                ProductId = product.Id,
                 Code = product.Code,
                 Name = product.Name,
                 Price = product.Price

@@ -25,7 +25,7 @@ namespace OrderManagement.Application.Products.UpdateProductById
 
             var productDto = new ProductDto
             {
-                Id = product.Id,
+                ProductId = product.Id,
                 Code = product.Code,
                 Name = product.Name,
                 Price = product.Price

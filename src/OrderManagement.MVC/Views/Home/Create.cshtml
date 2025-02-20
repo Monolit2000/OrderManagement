@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Нове замовлення</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/orders.js" defer></script>
+</head>
+<body>
+    <header>
+        <h2>➕ Створити замовлення</h2>
+    </header>
+    <main>
+        <input type="text" id="customer-name" placeholder="Ім'я" required>
+        <input type="text" id="customer-phone" placeholder="Телефон" required>
+        <button onclick="createOrder()">Замовити</button>
+        <br>
+        <a href="/Order/Index">⬅ Назад до списку</a>
+    </main>
+</body>
+</html>

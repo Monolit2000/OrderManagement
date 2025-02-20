@@ -1,27 +1,69 @@
 ﻿using MediatR;
-using OrderManagement.Domain.Orders;
+using OrderManagement.Application.Contract;
+using Dapper;
+using System.Data;
 
 namespace OrderManagement.Application.Orders.GetAllOrders
 {
-    public class GetAllOrdersQueryHandler(IOrderRepository orderRepository) : IRequestHandler<GetAllOrdersQuery, List<OrderDto>>
+    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, List<OrderDto>>
     {
+        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+
+        public GetAllOrdersQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        {
+            _sqlConnectionFactory = sqlConnectionFactory;
+        }
+
         public async Task<List<OrderDto>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await orderRepository.GetAllOrdersAsync();
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            var orderDtos = orders.Select(order => new OrderDto
-            {
-                CustomerFullName = order.CustomerFullName,
-                CustomerPhone = order.CustomerPhone,
-                OrderProducts = order.OrderProducts.Select(op => new OrderProductDto
+            const string sql = @"
+                SELECT 
+                    o.""Id"" AS OrderId, 
+                    o.""CustomerFullName"", 
+                    o.""CustomerPhone"", 
+                    op.""ProductId"", 
+                    op.""Amount"", 
+                    p.""Name"" AS ProductName
+                FROM ""Orders"" o
+                LEFT JOIN ""OrderProducts"" op ON o.""Id"" = op.""OrderId""
+                LEFT JOIN ""Products"" p ON op.""ProductId"" = p.""Id""";
+
+            var orderDictionary = new Dictionary<Guid, OrderDto>();
+
+            var result = await connection.QueryAsync<OrderDto, OrderProductDto, OrderDto>(
+                sql,
+                (order, orderProduct) =>
                 {
-                    ProductId = op.ProductId,
-                    ProductName = op.Product.Name   
+                    if (!orderDictionary.TryGetValue(order.OrderId, out var orderEntry))
+                    {
+                        orderEntry = new OrderDto
+                        {
+                            OrderId = order.OrderId,
+                            CustomerFullName = order.CustomerFullName,
+                            CustomerPhone = order.CustomerPhone,
+                            OrderProducts = new List<OrderProductDto>()
+                        };
+                        orderDictionary.Add(order.OrderId, orderEntry);
+                    }
 
-                }).ToList()
-            }).ToList();
+                    if (orderProduct != null)
+                    {
+                        orderEntry.OrderProducts.Add(new OrderProductDto
+                        {
+                            ProductId = orderProduct.ProductId,
+                            ProductName = orderProduct.ProductName,
+                            Amount = orderProduct.Amount
+                        });
+                    }
 
-            return orderDtos;
+                    return orderEntry;
+                },
+                splitOn: "ProductId"
+            );
+
+            return orderDictionary.Values.ToList();
         }
     }
 }

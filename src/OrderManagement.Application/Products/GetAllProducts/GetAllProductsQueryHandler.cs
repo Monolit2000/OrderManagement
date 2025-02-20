@@ -1,29 +1,23 @@
-﻿using MediatR;
-using OrderManagement.Domain.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dapper;
+using MediatR;
+using OrderManagement.Application.Contract;
 
 namespace OrderManagement.Application.Products.GetAllProducts
 {
     public class GetAllProductsQueryHandler(
-        IProductRepository productRepository) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
+       ISqlConnectionFactory sqlConnectionFactory) : IRequestHandler<GetAllProductsQuery, List<ProductDto>>
     {
         public async Task<List<ProductDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAllProductsAsync();
+            using var connection = sqlConnectionFactory.GetOpenConnection();
 
-            var productDtos = products.Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Code = p.Code,
-                Name = p.Name,
-                Price = p.Price
-            }).ToList();
+            const string sql = @"
+                SELECT ""Id"" AS ProductId, ""Code"", ""Name"", ""Price""
+                FROM ""Products""";
 
-            return productDtos;
+            var products = await connection.QueryAsync<ProductDto>(sql);
+
+            return products.ToList();
         }
     }
 }

@@ -1,0 +1,35 @@
+services:
+  ordermanagement.api:
+    image: ${DOCKER_REGISTRY-}ordermanagementapi
+    build:
+      context: .
+      dockerfile: src/OrderManagement.API/Dockerfile
+    environment:
+      ConnectionStrings__Database: Host=postgresddb;Port=5432;Database=audioDataBase;Username=postgres;Password=postgres
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgresddb
+    networks:
+      - default
+
+
+  postgresddb:
+    image: postgres:latest
+    container_name: postgres.db
+    environment:
+      POSTGRES_DB: audioDataBase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    restart: always
+
+
+
+volumes:
+  postgres_data:  
