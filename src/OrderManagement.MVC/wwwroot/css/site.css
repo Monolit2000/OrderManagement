@@ -221,6 +221,24 @@ input[type="checkbox"]:checked + label {
     font-weight: bold;
 }
 
+#error-popup {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 0, 0, 0.9);
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+}
+
+    #error-popup ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
 
 

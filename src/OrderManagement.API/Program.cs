@@ -1,7 +1,7 @@
-using OrderManagement.Infrastructure.Persistence;
-using OrderManagement.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.API.ExceptionHendlers;
+using OrderManagement.Infrastructure.Persistence;
+using OrderManagement.Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -23,9 +23,11 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddDIServices(builder.Configuration);
+
 
 var app = builder.Build();
 

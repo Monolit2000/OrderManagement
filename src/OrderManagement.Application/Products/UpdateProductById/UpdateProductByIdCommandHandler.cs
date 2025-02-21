@@ -14,7 +14,7 @@ namespace OrderManagement.Application.Products.UpdateProductById
                 throw new Exception($"Product with ID {request.ProductId} not found.");
     
             var existingProduct = await productRepository.GetProductByCodeAsync(request.Code);
-            if (existingProduct != null)
+            if (existingProduct != null && product.Id != existingProduct.Id)
                 throw new Exception($"Product with code {request.Code} already exists.");
 
             product.Update(request.Code, request.Name, request.Price);  

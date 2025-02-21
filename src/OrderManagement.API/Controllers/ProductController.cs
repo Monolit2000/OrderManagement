@@ -22,8 +22,6 @@ namespace OrderManagement.API.Controllers
         [HttpPost("createProduct")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
-            if (command == null)
-                return BadRequest();
 
             var result = await _mediator.Send(command);
             return Ok(result);
