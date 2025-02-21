@@ -31,10 +31,38 @@ OrderManagement.Solution/
     └── OrderManagement.UnitTests
 ```
 
-## Front-end Part Information 
+## Features
 
-The front-end is developed using ASP.NET MVC. All business logic is executed with pure JavaScripte. JavaScript files are located in the /wwwroot/js directory, allowing for easy management. 
+### 1. **Order Management**
 
+* **Create Orders**: Supports creating new orders with multiple products in a single request.
+
+* **Retrieve Orders**: Get a list of all orders or fetch a specific order by its ID.
+
+* **Order Details**: Each order includes product details such as ID and name.
+
+### 2. **Product Management**
+
+* **Create Products**: Add new products.
+
+* **Retrieve Products**: Fetch all products, get a product by ID, or search by product code.
+
+* **Update Products**: Modify product details by ID.
+
+### 3. **API Documentation & Validation**
+
+* **Swagger Integration**: API is documented using Swagger for easy testing and interaction.
+
+* **Validation & Error Handling**: Includes proper validation rules and meaningful error messages.
+
+### 4. **Front-end Integration**
+
+* **ASP.NET MVC-based UI**: A simple web interface for interacting with the API.
+
+* **JavaScript-powered UI**: All business logic is handled using vanilla JavaScript.
+
+* **Static File Management**: JavaScript files are stored in /wwwroot/js for easy organization.
+  
 
 ## Setup 
 
