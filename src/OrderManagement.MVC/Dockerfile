@@ -11,10 +11,10 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OrderManagement.MVC.csproj", "."]
-RUN dotnet restore "./OrderManagement.MVC.csproj"
+COPY ["src/OrderManagement.MVC/OrderManagement.MVC.csproj", "src/OrderManagement.MVC/"]
+RUN dotnet restore "./src/OrderManagement.MVC/OrderManagement.MVC.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/src/OrderManagement.MVC"
 RUN dotnet build "./OrderManagement.MVC.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап

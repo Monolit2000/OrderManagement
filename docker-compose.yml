@@ -1,19 +1,6 @@
 services:
 
 
-
-  ordermanagement.mvc:
-    image: ${DOCKER_REGISTRY-}ordermanagementmvc
-    build:
-      context: .
-      dockerfile: src/OrderManagement.MVC/Dockerfile
-    ports:
-      - "8080:8080"
-    # depends_on:
-    #   - ordermanagement.api
-    networks:
-      - default
-
   ordermanagement.api:
     image: ${DOCKER_REGISTRY-}ordermanagementapi
     build:
@@ -27,9 +14,22 @@ services:
       - postgresddb
     networks:
       - default
+    restart: always
 
 
-
+      
+  ordermanagement.mvc:
+    image: ${DOCKER_REGISTRY-}ordermanagementmvc
+    build:
+      context: .
+      dockerfile: src/OrderManagement.MVC/Dockerfile
+    ports:
+      - "8080:8080"
+    # depends_on:
+    #   - ordermanagement.api
+    networks:
+      - default
+    restart: always
 
 
   postgresddb:
