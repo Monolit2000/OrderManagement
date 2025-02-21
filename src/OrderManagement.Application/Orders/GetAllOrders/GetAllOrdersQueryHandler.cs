@@ -28,7 +28,8 @@ namespace OrderManagement.Application.Orders.GetAllOrders
                     p.""Name"" AS ProductName
                 FROM ""Orders"" o
                 LEFT JOIN ""OrderProducts"" op ON o.""Id"" = op.""OrderId""
-                LEFT JOIN ""Products"" p ON op.""ProductId"" = p.""Id""";
+                LEFT JOIN ""Products"" p ON op.""ProductId"" = p.""Id""
+                ORDER BY o.""CreatedOn"" DESC";
 
             var orderDictionary = new Dictionary<Guid, OrderDto>();
 

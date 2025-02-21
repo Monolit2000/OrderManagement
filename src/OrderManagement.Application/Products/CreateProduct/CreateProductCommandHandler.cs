@@ -1,10 +1,5 @@
 ﻿using MediatR;
 using OrderManagement.Domain.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderManagement.Application.Products.CreateProduct
 {
@@ -13,6 +8,11 @@ namespace OrderManagement.Application.Products.CreateProduct
     {
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
+            var isProductCodeExist = await productRepository.GetProductByCodeAsync(request.Code);
+
+            if (isProductCodeExist != null)
+                throw new Exception($"Product with code {request.Code} already exists.");   
+
             var product = Product.Create(request.Code, request.Name, request.Price);
 
             await productRepository.AddProductAsync(product);

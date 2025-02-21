@@ -15,6 +15,8 @@
     </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
-    <None Include="src\OrderManagement.Infrastructure\Persistence\SqlConnectionFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
   </ItemGroup>
 </Project>

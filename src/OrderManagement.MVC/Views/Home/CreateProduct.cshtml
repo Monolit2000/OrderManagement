@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@* <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,79 @@
         <input type="number" id="product-price" placeholder="Ціна" required>
         <button onclick="createProduct()">Додати продукт</button>
         <br>
-        <a href="/Product/Index">⬅ Назад до списку</a>
+        <a href="/Home/Index">⬅ Назад до списку</a>
     </main>
 </body>
 </html>
+ *@
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Нове продукт</title>
+    @* <link rel="stylesheet" href="/css/styles.css"> *@
+    <script src="/js/products.js" defer></script>
+</head>
+<body>
+    <header>
+        <h2>➕ Створити продукт</h2>
+    </header>
+    <main>
+        <input type="text" id="product-code" placeholder="Код" required>
+        <input type="text" id="product-name" placeholder="Назва" required>
+        <input type="number" id="product-price" placeholder="Ціна" required>
+        <button onclick="createProduct()">Додати продукт</button>
+
+        <h3>📋 Список продуктів</h3>
+        <ul id="product-list"></ul>
+
+        <br>
+        <a href="/Home/Index">⬅ Назад до списку</a>
+    </main>
+</body>
+</html>
+
+<style>
+
+    #product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .product-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 200px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .product-item input {
+            width: 90%;
+            padding: 5px;
+            margin: 5px 0;
+        }
+
+        .product-item button {
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .product-item button:hover {
+                background-color: #218838;
+            }
+
+
+</style>

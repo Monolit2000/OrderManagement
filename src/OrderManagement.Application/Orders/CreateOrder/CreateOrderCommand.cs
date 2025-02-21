@@ -15,7 +15,7 @@ namespace OrderManagement.Application.Orders.CreateOrder
         public string CustomerFullName { get; set; }
 
         [Required]
-        [Phone]
+        //[Phone]
         public string CustomerPhone { get; set; }
 
         [Required]

@@ -13,7 +13,8 @@ namespace OrderManagement.Application.Products.GetAllProducts
 
             const string sql = @"
                 SELECT ""Id"" AS ProductId, ""Code"", ""Name"", ""Price""
-                FROM ""Products""";
+                FROM ""Products""
+                ORDER BY ""CreatedAt"" DESC";
 
             var products = await connection.QueryAsync<ProductDto>(sql);
 

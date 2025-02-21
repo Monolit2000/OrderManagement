@@ -22,7 +22,7 @@ namespace OrderManagement.API.Controllers
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
             if (command == null)
-                return BadRequest();
+                return BadRequest("error");
 
             var result = await _mediator.Send(command);
             return Ok(result);

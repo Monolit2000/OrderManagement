@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@* <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -19,3 +19,37 @@
     </main>
 </body>
 </html>
+ *@
+
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Створити замовлення</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/CreateOrders.js" defer></script>
+</head>
+<body>
+    <header>
+        <h2>📝 Створити замовлення</h2>
+    </header>
+    <main>
+        <label>Ім'я клієнта:</label>
+        <input type="text" id="customer-name" placeholder="Введіть ім'я" required>
+
+        <label>Телефон клієнта:</label>
+        <input type="text" id="customer-phone" placeholder="Введіть телефон" required>
+
+        <h3>📦 Додайте продукти:</h3>
+        <div id="products-list"></div>
+
+        <button onclick="createOrder()">Створити замовлення</button>
+        <br>
+        <a href="/Home/Index">⬅ Назад</a>
+    </main>
+</body>
+</html>
+
+
+

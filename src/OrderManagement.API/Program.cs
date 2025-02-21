@@ -1,6 +1,7 @@
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
+using OrderManagement.API.ExceptionHendlers;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -19,6 +21,9 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader());
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddDIServices(builder.Configuration);
 
@@ -38,10 +43,12 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-//app.UseAuthorization();
 
 app.UseCors("AllowAll");
 
+app.UseExceptionHandler();
+
 app.MapControllers();
+
 
 app.Run();

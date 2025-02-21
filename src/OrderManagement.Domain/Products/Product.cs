@@ -13,6 +13,7 @@ namespace OrderManagement.Domain.Products
         public string Code { get; private set; }
         public string Name { get; private set; }
         public decimal Price { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public Product() { } //For EF Core  
 
@@ -22,6 +23,7 @@ namespace OrderManagement.Domain.Products
             Code = code ?? throw new ArgumentNullException(nameof(code));
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Price = price > 0 ? price : throw new ArgumentException("Price must be greater than zero.", nameof(price));
+            CreatedAt = DateTime.UtcNow;        
         }
 
         public static Product Create(string code, string name, decimal price)
