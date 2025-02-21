@@ -5,16 +5,41 @@
     <title>Замовлення</title>
     <link rel="stylesheet" href="/css/styles.css">
     <script src="/js/orders.js" defer></script>
+    <style>
+        main > div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem; 
+        }
+
+            main > div h3 {
+                margin-right: 1rem; 
+            }
+
+            main > div input {
+                margin-right: 0.5rem; 
+                padding: 0.5rem; 
+            }
+
+            main > div button {
+                padding: 0.5rem 1rem; 
+            }
+    </style>
 </head>
 <body>
     <header>
         <h2>📦 Замовлення</h2>
         <nav>
             <a href="/Home/Create">📝 Створити нове замовлення</a> |
-            <a href="/Home/CreateProduct">➕ Додати новий продукт</a>
+            <a href="/Home/CreateProduct">➕ Додати новий продукт та редагувати наяві</a>
         </nav>
     </header>
     <main>
+        <div>
+            <h3>Пошук замовлення за ID</h3>
+            <input type="text" id="order-id" placeholder="Введіть ID замовлення">
+            <button id="search-order-btn">Знайти замовлення</button>
+        </div>
         <ul id="order-list"></ul>
     </main>
 </body>

@@ -1,10 +1,10 @@
 ﻿
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Нове продукт</title>
-    @* <link rel="stylesheet" href="/css/styles.css"> *@
     <script src="/js/products.js" defer></script>
 </head>
 <body>
@@ -12,10 +12,18 @@
         <h2>➕ Створити продукт</h2>
     </header>
     <main>
+        <h3>Додати новий продукт</h3>
         <input type="text" id="product-code" placeholder="Код" required>
         <input type="text" id="product-name" placeholder="Назва" required>
         <input type="number" id="product-price" placeholder="Ціна" required>
         <button onclick="createProduct()">Додати продукт</button>
+
+        <h3>🔍 Пошук продукту</h3>
+        <input type="text" id="search-input-by-code" placeholder="Введіть код продукту" required>
+        <button onclick="searchProductsByCode()">Шукати за кодом</button>
+
+        <input type="text" id="search-input-by-Id" placeholder="Введіть Id продукту" required>
+        <button onclick="searchProductsById()">Шукати за Id</button>
 
         <h3>📋 Список продуктів</h3>
         <ul id="product-list"></ul>
@@ -23,8 +31,11 @@
         <br>
         <a href="/Home/Index">⬅ Назад до списку</a>
     </main>
+    <div id="error-popup" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; padding: 10px; z-index: 1000;"></div>
 </body>
 </html>
+
+
 
 <style>
 

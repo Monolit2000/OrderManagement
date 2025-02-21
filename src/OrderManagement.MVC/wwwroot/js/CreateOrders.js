@@ -84,7 +84,7 @@ function createOrder() {
             } else if (status === 500) {
                 showErrorPopup({ code: [body.detail] });
             } else {
-                alert("Продукт оновлено!");
+                alert("Замовлення створено!");
             }
         })
         .catch(error => console.error("Помилка створення замовлення:", error));

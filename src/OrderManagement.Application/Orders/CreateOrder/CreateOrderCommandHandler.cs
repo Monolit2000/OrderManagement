@@ -34,7 +34,8 @@ namespace OrderManagement.Application.Orders.CreateOrder
                 .Select(op => new OrderProductDto
                 {
                     ProductId = op.ProductId,
-                    ProductName = op.Product.Name,  
+                    ProductName = op.Product.Name,
+                    Amount = op.Amount      
                 }).ToList()
             };
 

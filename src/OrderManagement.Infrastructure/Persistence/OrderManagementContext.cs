@@ -31,8 +31,7 @@ namespace OrderManagement.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderManagementContext).Assembly);
 
-            //modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+         
         }
     }
 }
